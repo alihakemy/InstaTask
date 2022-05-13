@@ -3,7 +3,10 @@ package com.example.instatask.filter
 import android.widget.Filter
 import com.example.base.datalayer.models.WordsModel
 
-class WordsFilter( private val list: ArrayList<WordsModel> ,private val result :(ArrayList<WordsModel>)->Unit) : Filter() {
+class WordsFilter(
+    private val list: ArrayList<WordsModel>,
+    private val result: (ArrayList<WordsModel>) -> Unit
+) : Filter() {
     override fun performFiltering(constraint: CharSequence): FilterResults {
         val filteredList: ArrayList<WordsModel> = ArrayList()
         if (constraint == null || constraint.isEmpty()) {
@@ -29,11 +32,15 @@ class WordsFilter( private val list: ArrayList<WordsModel> ,private val result :
         result(newList)
 
     }
-    companion object{
 
-        fun getInstance( list: ArrayList<WordsModel> , result :(ArrayList<WordsModel>)->Unit): WordsFilter {
+    companion object {
 
-            return WordsFilter(list,result)
+        fun getInstance(
+            list: ArrayList<WordsModel>,
+            result: (ArrayList<WordsModel>) -> Unit
+        ): WordsFilter {
+
+            return WordsFilter(list, result)
         }
 
     }

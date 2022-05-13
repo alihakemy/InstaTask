@@ -1,6 +1,7 @@
 package com.example.instatask
 
 import android.os.Bundle
+import android.widget.CompoundButton
 import android.widget.Filter
 import android.widget.SearchView
 import androidx.activity.viewModels
@@ -51,6 +52,14 @@ class MainActivity : AppCompatActivity() {
 
 
         })
+        binding.sortToggle.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                viewModel.sortDescending()
+            } else {
+
+                viewModel.sortAscending()
+            }
+        }
 
 
 //        Thread {

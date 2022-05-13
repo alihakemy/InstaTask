@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/InstaTask/app/src/main/res/drawable/ic_toggle_bg.xml" value="0.1365" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/InstaTask/app/src/main/res/drawable/togglebutton_on.xml" value="0.1365" />
+        <entry key="..\:/Users/Ali/AndroidStudioProjects/InstaTask/app/src/main/res/drawable/tooglebutton_selector.xml" value="0.1365" />
         <entry key="..\:/Users/Ali/AndroidStudioProjects/InstaTask/app/src/main/res/layout/activity_main.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Ali/AndroidStudioProjects/InstaTask/app/src/main/res/layout/list_item.xml" value="0.16770833333333332" />
       </map>

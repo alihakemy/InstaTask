@@ -32,12 +32,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <ImageView
-                android:id="@+id/imageView"
+            <ToggleButton
+                android:id="@+id/sortToggle"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_baseline_sort_24" />
+                style="@style/toggleButton"
+                android:background="@drawable/ic_toggle_bg" />
         </LinearLayout>
 
 
