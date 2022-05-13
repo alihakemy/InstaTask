@@ -1,9 +1,7 @@
-package com.example.base.datalayer
+package com.example.base.utils
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import com.example.base.datalayer.models.WordsModel
-import com.example.base.di.Providers
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 

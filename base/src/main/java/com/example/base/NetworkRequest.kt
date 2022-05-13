@@ -1,26 +1,18 @@
 package com.example.base
 
-import android.content.Context
 import android.os.*
-import android.text.Html
-import android.util.Log
-import androidx.core.text.HtmlCompat
-import com.example.base.datalayer.convertToWordsModelAndInsertToDatabase
-import com.example.base.datalayer.findWords
+import com.example.base.utils.convertToWordsModelAndInsertToDatabase
+import com.example.base.utils.findWords
 import com.example.base.datalayer.models.WordsModel
 import com.example.base.di.Providers
 import com.example.base.utils.ResultState
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
-import java.io.IOException
 import java.io.InputStream
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.*
-import java.util.regex.Pattern
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 class NetworkRequest(
