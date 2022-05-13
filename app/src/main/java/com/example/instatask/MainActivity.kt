@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             if (progressDialog.isShowing) {
                 progressDialog.dismiss()
             }
-            binding.error.isVisible=true
+            binding.error.isVisible = true
 
 
         })
