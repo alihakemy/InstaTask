@@ -1,5 +1,6 @@
 package com.example.instatask
 
+import android.content.Context
 import android.util.Log
 import android.widget.Filter
 import androidx.lifecycle.MutableLiveData
@@ -14,12 +15,14 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 
+    val errorResult :MutableLiveData<String> = MutableLiveData()
 
     private val tempList: MutableLiveData<ArrayList<WordsModel>> = MutableLiveData()
     val resultData: MutableLiveData<ArrayList<WordsModel>> =
         MutableLiveData<ArrayList<WordsModel>>().also {
             getWords()
         }
+
 
 
     private fun getWords() {
@@ -32,11 +35,10 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 
                     resultData.postValue(it.data)
                     tempList.postValue(it.data)
-                    Log.e("Done", "Done")
                 }
 
                 else -> {
-                    Log.e("Erroe", "Error")
+                    errorResult.postValue("Error")
                 }
             }
 
@@ -47,16 +49,18 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
         state["search"] = query
         state.getLiveData<String>("search").also { text ->
             viewModelScope.launch {
-                WordsFilter.getInstance(resultData.value!!) {
+                resultData.value?.let {
+                    WordsFilter.getInstance(it) {
 
-                    if (text.value.toString().equals("")) {
-                        resultData.postValue(tempList.value)
-                    } else {
-                        resultData.postValue(it)
-                    }
+                        if (text.value.toString().equals("")) {
+                            resultData.postValue(tempList.value)
+                        } else {
+                            resultData.postValue(it)
+                        }
 
 
-                }.filter(text.value.toString())
+                    }.filter(text.value.toString())
+                }
 
             }
         }

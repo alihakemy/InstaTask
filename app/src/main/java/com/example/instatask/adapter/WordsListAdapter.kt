@@ -12,10 +12,14 @@ import com.example.instatask.filter.WordsFilter
 class WorldListAdapter() :
     RecyclerView.Adapter<WordsViewHolder>() {
     private val list: ArrayList<WordsModel> = ArrayList()
-    fun submitList(list: ArrayList<WordsModel>) {
-        this.list.clear()
-        this.list.addAll(list)
-        notifyDataSetChanged()
+    fun submitList(list: ArrayList<WordsModel>?) {
+
+        if (list != null) {
+            this.list.clear()
+            this.list.addAll(list)
+            notifyDataSetChanged()
+
+        }
 
     }
 

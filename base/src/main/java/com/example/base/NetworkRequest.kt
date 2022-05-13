@@ -1,17 +1,20 @@
 package com.example.base
 
+import android.content.Context
 import android.os.*
 import android.text.Html
 import android.util.Log
 import androidx.core.text.HtmlCompat
-import com.example.base.datalayer.convertToWordsModel
+import com.example.base.datalayer.convertToWordsModelAndInsertToDatabase
 import com.example.base.datalayer.findWords
 import com.example.base.datalayer.models.WordsModel
+import com.example.base.di.Providers
 import com.example.base.utils.ResultState
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
+import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
@@ -20,7 +23,9 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
-class NetworkRequest(result: (s: ResultState<ArrayList<WordsModel>>) -> Unit) {
+class NetworkRequest(
+    result: (s: ResultState<ArrayList<WordsModel>>) -> Unit
+) {
     private var thread: HandlerThread = HandlerThread("HttpRequest")
 
 
@@ -33,8 +38,9 @@ class NetworkRequest(result: (s: ResultState<ArrayList<WordsModel>>) -> Unit) {
     private val handler = object : Handler(thread.looper) {
         override fun handleMessage(msg: Message) {
 
+
             if (msg.data.containsKey("KEY")) {
-                kotlin.runCatching {
+                try {
                     val url = URL(msg.data.getString("KEY")) //wrapping url object
 
                     val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
@@ -42,22 +48,45 @@ class NetworkRequest(result: (s: ResultState<ArrayList<WordsModel>>) -> Unit) {
                     conn.connectTimeout = 15000
                     conn.requestMethod = "GET"
                     conn.connect()
-                    conn.inputStream
 
-                }.onSuccess {
-                    val result = readStream(it).toString()
-                    result(ResultState.Success(result.findWords().convertToWordsModel()))
-                }.onFailure {
-                    result(ResultState.Error(it.localizedMessage.toString()))
+
+                    val result = readStream(conn.inputStream).toString()
+                    val wordsList = convertToWordsModelAndInsertToDatabase(result.findWords())
+
+
+                    Providers.providesDatabaseHelper()
+                        .checkEmpty {
+
+
+                            if (it) {
+                                Providers.providesDatabaseHelper()
+                                    .insertWord(wordsList)
+
+                            }
+
+                        }
+
+
+                    result(ResultState.Success(wordsList))
+
+                    stopRequest()
+                } catch (e: Exception) {
+                    val list = Providers.providesDatabaseHelper().getResults()
+                    if (list.isNullOrEmpty()) {
+                        result(ResultState.Error(e.localizedMessage.toString()))
+
+                    } else {
+                        result(ResultState.Success(list))
+                    }
+                    stopRequest()
+
                 }
+
             }
-
-
         }
     }
 
     fun startGetHttpRequest(url: String) {
-
 
         val msg = Message()
         val b = Bundle()
@@ -65,16 +94,11 @@ class NetworkRequest(result: (s: ResultState<ArrayList<WordsModel>>) -> Unit) {
         msg.data = b
         handler.sendMessage(msg)
 
-        for (i in 0..4) {
-            Log.d("TAG", "sending " + i + " in " + Thread.currentThread())
-            handler.sendEmptyMessageDelayed(i, 0)
-        }
-
 
     }
 
     fun stopRequest() {
-        thread?.quitSafely()
+        thread.quitSafely()
     }
 
 

@@ -1,15 +1,14 @@
 package com.example.instatask
 
+import android.app.ProgressDialog
 import android.os.Bundle
-import android.widget.CompoundButton
-import android.widget.Filter
 import android.widget.SearchView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.base.datalayer.models.WordsModel
 import com.example.instatask.adapter.WorldListAdapter
 import com.example.instatask.databinding.ActivityMainBinding
 
@@ -19,11 +18,15 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: WorldListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Loading")
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        progressDialog.show()
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
 
 
@@ -34,7 +37,11 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerViewItems.adapter = adapter
 
         viewModel.resultData.observe(this, Observer {
+
             adapter.submitList(it)
+            if (progressDialog.isShowing) {
+                progressDialog.dismiss()
+            }
         })
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -46,7 +53,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let { viewModel.searchWord(it) }
-
                 return false
             }
 
@@ -56,20 +62,19 @@ class MainActivity : AppCompatActivity() {
             if (isChecked) {
                 viewModel.sortDescending()
             } else {
-
                 viewModel.sortAscending()
             }
         }
 
+        viewModel.errorResult.observe(this, Observer {
 
-//        Thread {
-//            Providers.providesDatabaseHelper(this).insertWord(WordsModel("G", 1))
-//            Providers.providesDatabaseHelper(this).getResults()
-//            Log.e(
-//                "Result", Providers.providesDatabaseHelper(this)
-//                    .getResults().toString()
-//            )
-//        }.start()
+            if (progressDialog.isShowing) {
+                progressDialog.dismiss()
+            }
+            binding.error.isVisible=true
+
+
+        })
 
 
     }

@@ -13,10 +13,12 @@ object Providers {
 
     fun getNetworkRequest(result: (s: ResultState<ArrayList<WordsModel>>) -> Unit) = NetworkRequest(result)
 
-    fun provideRepository() = RepositoryImpl()
+    private fun provideRepository() = RepositoryImpl()
 
     fun provideUseCase() = UseCase(provideRepository())
 
-    fun providesDatabaseHelper(context: Context) = DatabaseHandler(context,null)
+    fun providesDatabaseHelper() = DatabaseHandler(null)
+
+
 
 }
