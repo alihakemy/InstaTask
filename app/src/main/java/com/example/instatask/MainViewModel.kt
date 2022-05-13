@@ -22,7 +22,7 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
         }
 
 
-    fun getWords() {
+    private fun getWords() {
 
         Providers.provideUseCase().getResultFromHttp(BuildConfig.BaseUrl) {
 
@@ -62,5 +62,21 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
         }
     }
 
+
+    fun sortDescending() {
+        resultData.value?.sortByDescending {
+            it.wordRepeat
+        }
+        resultData.postValue(resultData.value)
+
+    }
+
+    fun sortAscending () {
+        resultData.value?.sortBy {
+            it.wordRepeat
+        }
+        resultData.postValue(resultData.value)
+
+    }
 
 }
