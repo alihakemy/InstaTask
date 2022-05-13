@@ -14,6 +14,7 @@ import java.lang.Exception
 
 class DatabaseHandler(factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(MyApplication.context, DATABASE_NAME, factory, DATABASE_VERSION) {
+    private val db = this
     override fun onCreate(db: SQLiteDatabase?) {
         // below is a sqlite query, where column names
         // along with their data types is given
@@ -34,33 +35,36 @@ class DatabaseHandler(factory: SQLiteDatabase.CursorFactory?) :
 
     @WorkerThread
     fun insertWord(wordsModel: ArrayList<WordsModel>) {
-        val db = this.writableDatabase
 
         wordsModel.forEach {
             val values = ContentValues()
             values.put("word", it.word)
             values.put("repeatCount", it.wordRepeat)
-            db.insert(TABLE_NAME, null, values)
+            db.writableDatabase.insert(TABLE_NAME, null, values)
 
 
         }
+        closeDatabase()
 
-        db.close()
     }
 
     @WorkerThread
     fun checkEmpty(empty: (boolean: Boolean) -> Unit) {
 
-        val db = this.readableDatabase
-        val cur: Cursor = db.rawQuery("SELECT COUNT(*) FROM $TABLE_NAME", null);
+
+        val cur: Cursor = db.readableDatabase.rawQuery("SELECT COUNT(*) FROM $TABLE_NAME", null);
         if (cur != null && cur.moveToFirst()) {
             empty(cur.getInt(0) == 0)
         }
 
-        cur.close();
+        cur.close()
+        closeDatabase()
 
     }
 
+    fun closeDatabase(){
+        db.close()
+    }
 
     @SuppressLint("Range")
     @WorkerThread
