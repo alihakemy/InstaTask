@@ -49,7 +49,10 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
                     if (text.value.toString().equals("")) {
                         resultData.postValue(tempList.value)
                     } else {
+
                         resultData.postValue(it)
+
+
                     }
 
 

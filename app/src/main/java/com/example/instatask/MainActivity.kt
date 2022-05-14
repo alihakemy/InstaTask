@@ -22,37 +22,52 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: WorldListAdapter
 
+    private lateinit var progressDialog: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var progressDialog = ProgressDialog(this)
+        progressDialog = ProgressDialog(this)
         progressDialog.setMessage("Loading")
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         progressDialog.show()
-        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
+
+        binding.initRecycler()
+
+        binding.renderData()
 
 
+    }
 
-        binding.recyclerViewItems.layoutManager = layoutManager
 
+    private fun ActivityMainBinding.initRecycler() {
+        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this@MainActivity)
+        recyclerViewItems.layoutManager = layoutManager
         adapter = WorldListAdapter()
-        binding.recyclerViewItems.adapter = adapter
+        recyclerViewItems.adapter = adapter
 
-        viewModel.resultData.observe(this, Observer {
+    }
+
+    private fun ActivityMainBinding.renderData() {
+        viewModel.resultData.observe(this@MainActivity, Observer {
 
             adapter.submitList(it)
+            searchNotFound.isVisible = it.isNullOrEmpty()
+
             if (progressDialog.isShowing) {
                 progressDialog.dismiss()
             }
+
         })
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.searchWord(query)
                 return false
             }
+
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let { viewModel.searchWord(it) }
@@ -61,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 
 
         })
-        binding.sortToggle.setOnCheckedChangeListener { buttonView, isChecked ->
+        sortToggle.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 viewModel.sortDescending()
             } else {
@@ -69,20 +84,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.errorResult.observe(this, Observer {
+        viewModel.errorResult.observe(this@MainActivity, Observer {
 
             if (progressDialog.isShowing) {
                 progressDialog.dismiss()
             }
-            binding.error.isVisible = true
-
+            error.isVisible = true
+            searchNotFound.isVisible = false
 
         })
 
 
-
-
     }
+
 
     override fun onPause() {
         super.onPause()

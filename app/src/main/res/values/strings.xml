@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">InstaTask</string>
+    <string name="emptyText">No Result Founded </string>
 </resources>
