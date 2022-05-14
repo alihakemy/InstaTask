@@ -42,7 +42,7 @@ class NetworkRequest(
                     conn.connect()
 
 
-                    val result = readStream(conn.inputStream).toString()
+                    val result = readStream(conn.inputStream).toString().replace(" ","  ")
                     val wordsList = convertToWordsModelAndInsertToDatabase(result.findWords())
 
                     result(ResultState.Success(wordsList))

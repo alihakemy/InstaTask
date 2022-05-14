@@ -4,6 +4,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.base.datalayer.models.WordsModel
 import com.example.base.di.Providers
+import com.example.base.utils.findWords
 import org.junit.After
 
 import org.junit.Test
@@ -35,9 +36,14 @@ class ExampleInstrumentedTest {
         Providers.providesDatabaseHelper().insertWord(list)
     }
 
-    @After
-    fun closeDb() {
-        Providers.providesDatabaseHelper().closeDatabase()
+    @Test
+    fun regex() {
+
+
+        assertEquals( "All modern operating 8 9 systems support concurrency both via processes and threads".replace(" ","  ").findWords().size,11)
+
     }
+
+
 
 }
