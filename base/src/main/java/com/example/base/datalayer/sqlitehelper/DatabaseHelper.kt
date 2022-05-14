@@ -15,14 +15,12 @@ class DatabaseHelper(factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(MyApplication.context, DATABASE_NAME, factory, DATABASE_VERSION) {
     private val db = this
     override fun onCreate(db: SQLiteDatabase?) {
-        // below is a sqlite query, where column names
-        // along with their data types is given
+
         val query =
             ("CREATE TABLE " + TABLE_NAME + "( " +
                     "word Text PRIMARY KEY , repeatCount INTEGER )")
 
-        // we are calling sqlite
-        // method for executing our query
+
         db?.execSQL(query)
 
     }
@@ -85,7 +83,7 @@ class DatabaseHelper(factory: SQLiteDatabase.CursorFactory?) :
         }
 
 
-        // at last we close our cursor
+
         cursor.close()
         closeDatabase()
         return listResult
@@ -94,10 +92,8 @@ class DatabaseHelper(factory: SQLiteDatabase.CursorFactory?) :
 
 
     companion object {
-        // below is variable for database name
         private val DATABASE_NAME = "InstaBugWords"
 
-        // below is the variable for database version
         private val DATABASE_VERSION = 1
 
         val TABLE_NAME = "words"
