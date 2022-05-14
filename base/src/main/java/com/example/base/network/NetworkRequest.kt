@@ -1,6 +1,7 @@
-package com.example.base
+package com.example.base.network
 
 import android.os.*
+import android.util.Log
 import com.example.base.utils.convertToWordsModel
 import com.example.base.utils.findWords
 import com.example.base.datalayer.models.WordsModel

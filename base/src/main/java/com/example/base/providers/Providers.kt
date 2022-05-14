@@ -1,6 +1,6 @@
 package com.example.base.providers
 
-import com.example.base.NetworkRequest
+import com.example.base.network.NetworkRequest
 import com.example.base.datalayer.RepositoryImpl
 import com.example.base.datalayer.models.WordsModel
 import com.example.base.datalayer.sqlitehelper.DatabaseHelper

@@ -22,15 +22,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: WorldListAdapter
 
-    private lateinit var progressDialog: ProgressDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        progressDialog = ProgressDialog(this)
-        progressDialog.setMessage("Loading")
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        progressDialog.show()
+
 
         binding.initRecycler()
 
@@ -54,10 +51,7 @@ class MainActivity : AppCompatActivity() {
             adapter.submitList(it)
             searchNotFound.isVisible = it.isNullOrEmpty()
 
-            if (progressDialog.isShowing) {
-                progressDialog.dismiss()
-            }
-
+            progressBar.isVisible = false
         })
 
 
@@ -65,12 +59,14 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.searchWord(query)
+                progressBar.isVisible = true
                 return false
             }
 
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let { viewModel.searchWord(it) }
+                progressBar.isVisible = true
                 return false
             }
 
@@ -78,21 +74,29 @@ class MainActivity : AppCompatActivity() {
         })
         sortToggle.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
+                progressBar.isVisible = true
                 viewModel.sortDescending()
             } else {
+                progressBar.isVisible = true
                 viewModel.sortAscending()
             }
         }
 
         viewModel.errorResult.observe(this@MainActivity, Observer {
 
-            if (progressDialog.isShowing) {
-                progressDialog.dismiss()
-            }
+
+            progressBar.isVisible = false
             error.isVisible = true
             searchNotFound.isVisible = false
 
+
         })
+        error.setOnClickListener {
+            progressBar.isVisible = true
+            error.isVisible = false
+            viewModel.getWords()
+
+        }
 
 
     }

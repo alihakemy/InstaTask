@@ -19,8 +19,7 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
             getWords()
         }
 
-
-    private fun getWords() {
+    fun getWords() {
 
         useCase.getResultFromHttp(BuildConfig.BaseUrl) {
 
