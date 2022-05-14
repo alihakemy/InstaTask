@@ -38,7 +38,7 @@ class ExampleInstrumentedTest {
     fun regex() {
 
 
-        assertEquals( "All modern operating 8 9 systems support concurrency both via processes and threads".replace(" ","  ").findWords().size,11)
+        assertEquals( "All modern operating 8 9 systems support & concurrency both via processes and threads".replace(" ","  ").findWords().size,11)
 
     }
 
