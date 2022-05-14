@@ -27,7 +27,7 @@ fun String.findWords(): HashMap<String, Int> {
 
 
 @WorkerThread
-fun convertToWordsModelAndInsertToDatabase(map: HashMap<String, Int>): ArrayList<WordsModel> {
+fun convertToWordsModel(map: HashMap<String, Int>): ArrayList<WordsModel> {
 
     val list: ArrayList<WordsModel> = ArrayList()
     for (key in map.keys) {

@@ -1,10 +1,9 @@
 package com.example.base
 
 import android.os.*
-import com.example.base.utils.convertToWordsModelAndInsertToDatabase
+import com.example.base.utils.convertToWordsModel
 import com.example.base.utils.findWords
 import com.example.base.datalayer.models.WordsModel
-import com.example.base.di.Providers
 import com.example.base.utils.ResultState
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
@@ -43,7 +42,7 @@ class NetworkRequest(
 
 
                     val result = readStream(conn.inputStream).toString().replace(" ","  ")
-                    val wordsList = convertToWordsModelAndInsertToDatabase(result.findWords())
+                    val wordsList = convertToWordsModel(result.findWords())
 
                     result(ResultState.Success(wordsList))
                     stopRequest()
