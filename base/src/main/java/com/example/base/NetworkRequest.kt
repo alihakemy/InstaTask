@@ -46,30 +46,16 @@ class NetworkRequest(
                     val wordsList = convertToWordsModelAndInsertToDatabase(result.findWords())
 
 
-                    Providers.providesDatabaseHelper()
-                        .checkEmpty {
-
-
-                            if (it) {
-                                Providers.providesDatabaseHelper()
-                                    .insertWord(wordsList)
-
-                            }
-
-                        }
 
 
                     result(ResultState.Success(wordsList))
 
                     stopRequest()
                 } catch (e: Exception) {
-                    val list = Providers.providesDatabaseHelper().getResults()
-                    if (list.isNullOrEmpty()) {
-                        result(ResultState.Error(e.localizedMessage.toString()))
 
-                    } else {
-                        result(ResultState.Success(list))
-                    }
+                    result(ResultState.Error(e.localizedMessage.toString()))
+
+
                     stopRequest()
 
                 }

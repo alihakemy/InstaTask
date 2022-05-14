@@ -2,6 +2,7 @@ package com.example.instatask
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.util.Log
 import android.widget.SearchView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instatask.adapter.WorldListAdapter
 import com.example.instatask.databinding.ActivityMainBinding
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 
 class MainActivity : AppCompatActivity() {
@@ -75,6 +78,8 @@ class MainActivity : AppCompatActivity() {
 
 
         })
+
+
 
 
     }

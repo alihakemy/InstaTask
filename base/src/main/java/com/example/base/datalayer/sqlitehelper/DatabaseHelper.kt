@@ -2,17 +2,16 @@ package com.example.base.datalayer.sqlitehelper
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
-import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import androidx.annotation.WorkerThread
 import com.example.base.MyApplication
 import com.example.base.datalayer.models.WordsModel
-import java.lang.Exception
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
-class DatabaseHandler(factory: SQLiteDatabase.CursorFactory?) :
+class DatabaseHelper(factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(MyApplication.context, DATABASE_NAME, factory, DATABASE_VERSION) {
     private val db = this
     override fun onCreate(db: SQLiteDatabase?) {
@@ -20,7 +19,7 @@ class DatabaseHandler(factory: SQLiteDatabase.CursorFactory?) :
         // along with their data types is given
         val query =
             ("CREATE TABLE " + TABLE_NAME + "( " +
-                    "word Text , repeatCount INTEGER )")
+                    "word Text PRIMARY KEY , repeatCount INTEGER )")
 
         // we are calling sqlite
         // method for executing our query
@@ -62,7 +61,8 @@ class DatabaseHandler(factory: SQLiteDatabase.CursorFactory?) :
 
     }
 
-    fun closeDatabase(){
+    fun closeDatabase() {
+
         db.close()
     }
 
@@ -87,7 +87,7 @@ class DatabaseHandler(factory: SQLiteDatabase.CursorFactory?) :
 
         // at last we close our cursor
         cursor.close()
-        db.close()
+        closeDatabase()
         return listResult
 
     }

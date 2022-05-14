@@ -1,13 +1,12 @@
 package com.example.base.di
 
-import android.content.Context
 import com.example.base.NetworkRequest
 import com.example.base.datalayer.RepositoryImpl
 import com.example.base.datalayer.models.WordsModel
-import com.example.base.datalayer.sqlitehelper.DatabaseHandler
+import com.example.base.datalayer.sqlitehelper.DatabaseHelper
+import com.example.base.datalayer.sqlitehelper.ManageDatabaseOperation
 import com.example.base.domainlayer.UseCase
 import com.example.base.utils.ResultState
-import java.util.logging.Handler
 
 object Providers {
 
@@ -17,8 +16,9 @@ object Providers {
 
     fun provideUseCase() = UseCase(provideRepository())
 
-    fun providesDatabaseHelper() = DatabaseHandler(null)
+    fun providesDatabaseHelper() = DatabaseHelper(null)
 
+    fun provideDatabaseOperation()=ManageDatabaseOperation()
 
 
 }

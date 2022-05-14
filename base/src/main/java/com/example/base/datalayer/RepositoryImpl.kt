@@ -1,8 +1,10 @@
 package com.example.base.datalayer
 
 import android.content.Context
+import android.os.Looper
 import android.util.Log
 import com.example.base.datalayer.models.WordsModel
+import com.example.base.datalayer.sqlitehelper.ManageDatabaseOperation
 import com.example.base.di.Providers
 import com.example.base.domainlayer.Repository
 import com.example.base.utils.ResultState
@@ -20,10 +22,19 @@ class RepositoryImpl() : Repository {
 
         Providers
             .getNetworkRequest() {
+                when (it) {
+                    is ResultState.Success<ArrayList<WordsModel>> -> {
 
-                result(it)
+                            Providers.provideDatabaseOperation().storeItems(it.data)
 
+                        result(it)
+                    }
+                    else -> {
 
+                        result(ManageDatabaseOperation().getLocalData().get())
+
+                    }
+                }
             }
             .startGetHttpRequest(url)
 
