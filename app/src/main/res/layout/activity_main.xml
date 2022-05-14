@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/tryAgain"
         android:visibility="gone"
-        android:drawableLeft="@drawable/ic_baseline_error_24"
+        app:drawableLeftCompat="@drawable/ic_baseline_error_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         />
