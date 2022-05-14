@@ -1,15 +1,10 @@
 package com.example.base.datalayer
 
-import android.content.Context
-import android.os.Looper
-import android.util.Log
 import com.example.base.datalayer.models.WordsModel
 import com.example.base.datalayer.sqlitehelper.ManageDatabaseOperation
-import com.example.base.di.Providers
+import com.example.base.providers.Providers
 import com.example.base.domainlayer.Repository
 import com.example.base.utils.ResultState
-import org.w3c.dom.Document
-import kotlin.concurrent.thread
 
 class RepositoryImpl() : Repository {
 

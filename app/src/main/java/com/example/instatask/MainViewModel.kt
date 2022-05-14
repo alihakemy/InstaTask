@@ -1,17 +1,12 @@
 package com.example.instatask
 
-import android.content.Context
-import android.util.Log
-import android.widget.Filter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.base.datalayer.models.WordsModel
-import com.example.base.di.Providers
+import com.example.base.providers.Providers
 import com.example.base.utils.ResultState
 import com.example.instatask.filter.WordsFilter
-import kotlinx.coroutines.launch
 
 class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 

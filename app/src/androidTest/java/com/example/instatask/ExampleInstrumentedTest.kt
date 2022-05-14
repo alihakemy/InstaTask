@@ -3,15 +3,13 @@ package com.example.instatask
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.base.datalayer.models.WordsModel
-import com.example.base.di.Providers
+import com.example.base.providers.Providers
 import com.example.base.utils.findWords
-import org.junit.After
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
-import kotlin.concurrent.thread
 
 /**
  * Instrumented test, which will execute on an Android device.

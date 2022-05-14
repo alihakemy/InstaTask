@@ -1,4 +1,4 @@
-package com.example.base.di
+package com.example.base.providers
 
 import com.example.base.NetworkRequest
 import com.example.base.datalayer.RepositoryImpl

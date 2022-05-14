@@ -1,9 +1,8 @@
 package com.example.base.datalayer.sqlitehelper
 
 import com.example.base.datalayer.models.WordsModel
-import com.example.base.di.Providers
+import com.example.base.providers.Providers
 import com.example.base.utils.ResultState
-import java.lang.Exception
 import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
