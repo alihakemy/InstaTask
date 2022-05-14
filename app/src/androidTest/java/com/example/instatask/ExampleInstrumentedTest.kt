@@ -31,7 +31,8 @@ class ExampleInstrumentedTest {
         val list: ArrayList<WordsModel> = ArrayList()
 
         list.add(WordsModel("a", 1))
-        Providers.providesDatabaseHelper().insertWord(list)
+        Providers.provideDatabaseOperation().storeItems(list)
+        Providers.provideDatabaseOperation().closeExecutor()
     }
 
     @Test
