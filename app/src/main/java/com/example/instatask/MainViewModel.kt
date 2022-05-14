@@ -62,18 +62,28 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 
 
     fun sortDescending() {
-        resultData.value?.sortByDescending {
-            it.wordRepeat
+        resultData.value?.let {
+            if (it.size>0){
+                it.sortByDescending {
+                    it.wordRepeat
+                }
+                resultData.postValue(resultData.value)
+            }
+
         }
-        resultData.postValue(resultData.value)
 
     }
 
     fun sortAscending() {
-        resultData.value?.sortBy {
-            it.wordRepeat
+        resultData.value?.let {
+            if (it.size > 0) {
+                it.sortBy {
+                    it.wordRepeat
+                }
+                resultData.postValue(resultData.value)
+            }
         }
-        resultData.postValue(resultData.value)
+
 
     }
 

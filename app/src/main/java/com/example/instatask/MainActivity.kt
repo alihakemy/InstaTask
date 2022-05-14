@@ -59,14 +59,12 @@ class MainActivity : AppCompatActivity() {
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.searchWord(query)
-                progressBar.isVisible = true
                 return false
             }
 
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let { viewModel.searchWord(it) }
-                progressBar.isVisible = true
                 return false
             }
 
@@ -74,10 +72,8 @@ class MainActivity : AppCompatActivity() {
         })
         sortToggle.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                progressBar.isVisible = true
                 viewModel.sortDescending()
             } else {
-                progressBar.isVisible = true
                 viewModel.sortAscending()
             }
         }
