@@ -15,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 
-    val errorResult :MutableLiveData<String> = MutableLiveData()
+    private val useCase = Providers.provideUseCase()
+    val errorResult: MutableLiveData<String> = MutableLiveData()
 
     private val tempList: MutableLiveData<ArrayList<WordsModel>> = MutableLiveData()
     val resultData: MutableLiveData<ArrayList<WordsModel>> =
@@ -24,10 +25,9 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
         }
 
 
-
     private fun getWords() {
 
-        Providers.provideUseCase().getResultFromHttp(BuildConfig.BaseUrl) {
+        useCase.getResultFromHttp(BuildConfig.BaseUrl) {
 
             when (it) {
 
@@ -48,20 +48,17 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
     fun searchWord(query: String) {
         state["search"] = query
         state.getLiveData<String>("search").also { text ->
-            viewModelScope.launch {
-                resultData.value?.let {
-                    WordsFilter.getInstance(it) {
+            resultData.value?.let {
+                WordsFilter.getInstance(it) {
 
-                        if (text.value.toString().equals("")) {
-                            resultData.postValue(tempList.value)
-                        } else {
-                            resultData.postValue(it)
-                        }
+                    if (text.value.toString().equals("")) {
+                        resultData.postValue(tempList.value)
+                    } else {
+                        resultData.postValue(it)
+                    }
 
 
-                    }.filter(text.value.toString())
-                }
-
+                }.filter(text.value.toString())
             }
         }
     }
@@ -75,7 +72,7 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 
     }
 
-    fun sortAscending () {
+    fun sortAscending() {
         resultData.value?.sortBy {
             it.wordRepeat
         }
