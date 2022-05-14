@@ -45,17 +45,10 @@ class NetworkRequest(
                     val result = readStream(conn.inputStream).toString()
                     val wordsList = convertToWordsModelAndInsertToDatabase(result.findWords())
 
-
-
-
                     result(ResultState.Success(wordsList))
-
                     stopRequest()
                 } catch (e: Exception) {
-
                     result(ResultState.Error(e.localizedMessage.toString()))
-
-
                     stopRequest()
 
                 }
