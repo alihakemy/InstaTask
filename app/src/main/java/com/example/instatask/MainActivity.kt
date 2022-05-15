@@ -1,8 +1,6 @@
 package com.example.instatask
 
-import android.app.ProgressDialog
 import android.os.Bundle
-import android.util.Log
 import android.widget.SearchView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,8 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instatask.adapter.WorldListAdapter
 import com.example.instatask.databinding.ActivityMainBinding
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 
 class MainActivity : AppCompatActivity() {
@@ -78,14 +74,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.errorResult.observe(this@MainActivity, Observer {
+        viewModel.stateResult.observe(this@MainActivity, Observer {
+            if(it.equals("Error")){
+                progressBar.isVisible = false
+                error.isVisible = true
+                searchNotFound.isVisible = false
 
-
-            progressBar.isVisible = false
-            error.isVisible = true
-            searchNotFound.isVisible = false
-
-
+            }
         })
         error.setOnClickListener {
             progressBar.isVisible = true

@@ -11,7 +11,7 @@ import com.example.instatask.filter.WordsFilter
 class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 
     private val useCase = Providers.provideUseCase()
-    val errorResult: MutableLiveData<String> = MutableLiveData()
+    val stateResult: MutableLiveData<String> = MutableLiveData()
 
     private val tempList: MutableLiveData<ArrayList<WordsModel>> = MutableLiveData()
 
@@ -30,10 +30,12 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 
                     resultData.postValue(it.data)
                     tempList.postValue(it.data)
+                    stateResult.postValue("success")
+
                 }
 
                 else -> {
-                    errorResult.postValue("Error")
+                    stateResult.postValue("Error")
                 }
             }
 
