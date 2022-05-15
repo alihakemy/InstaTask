@@ -9,7 +9,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
 class ManageDatabaseOperation {
-    var executor: ExecutorService = Executors.newFixedThreadPool(1)
+    var executor: ExecutorService = Executors.newSingleThreadExecutor()
 
 
     fun getLocalData(): Future<ResultState<ArrayList<WordsModel>>> {
@@ -25,21 +25,26 @@ class ManageDatabaseOperation {
 
 
             }
+
         return executor.submit<ResultState<ArrayList<WordsModel>>>(task)
     }
 
     fun storeItems(wordsModel: ArrayList<WordsModel>) {
+        val list :ArrayList<WordsModel> = ArrayList()
+        list.addAll(wordsModel)
         executor.execute {
-            Providers.providesDatabaseHelper().checkEmpty {
-                if (it) {
-                    Providers.providesDatabaseHelper().insertWord(wordsModel)
+            if (!wordsModel.isNullOrEmpty()) {
+                Providers.providesDatabaseHelper().checkEmpty {
+                    if (it) {
+                        Providers.providesDatabaseHelper().insertWord( list)
 
+                    }
                 }
-
             }
         }
-
+        closeExecutor()
     }
+
 
     fun closeExecutor() {
         executor.shutdown()

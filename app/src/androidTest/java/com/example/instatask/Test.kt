@@ -17,7 +17,7 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+class Test {
     @Test
     fun useAppContext() {
         // Context of the app under test.
@@ -33,6 +33,12 @@ class ExampleInstrumentedTest {
         list.add(WordsModel("a", 1))
         Providers.provideDatabaseOperation().storeItems(list)
         Providers.provideDatabaseOperation().closeExecutor()
+    }
+    @Test
+    fun checkEmpty() {
+        Providers.providesDatabaseHelper().checkEmpty {
+            assertEquals(it,true)
+        }
     }
 
     @Test

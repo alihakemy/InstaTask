@@ -19,15 +19,17 @@ class RepositoryImpl() : Repository {
             .getNetworkRequest() {
                 when (it) {
                     is ResultState.Success<ArrayList<WordsModel>> -> {
-
-                            Providers.provideDatabaseOperation().storeItems(it.data)
-
                         result(it)
+
+
+                        Providers.provideDatabaseOperation().storeItems(it.data)
+
+
                     }
                     else -> {
 
                         result(ManageDatabaseOperation().getLocalData().get())
-
+                        ManageDatabaseOperation().closeExecutor()
                     }
                 }
             }

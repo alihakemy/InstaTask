@@ -49,13 +49,19 @@ class DatabaseHelper(factory: SQLiteDatabase.CursorFactory?) :
     fun checkEmpty(empty: (boolean: Boolean) -> Unit) {
 
 
-        val cur: Cursor = db.readableDatabase.rawQuery("SELECT COUNT(*) FROM $TABLE_NAME", null);
-        if (cur != null && cur.moveToFirst()) {
-            empty(cur.getInt(0) == 0)
+        val cur: Cursor =  db.readableDatabase.rawQuery("SELECT COUNT(*) FROM $TABLE_NAME", null)
+        cur?.let {
+            if (!it.isClosed) {
+                if (it.moveToFirst()) {
+                    empty(it.getInt (0) == 0)
+
+                }
+            }
+
+            it.close()
+            closeDatabase()
         }
 
-        cur.close()
-        closeDatabase()
 
     }
 

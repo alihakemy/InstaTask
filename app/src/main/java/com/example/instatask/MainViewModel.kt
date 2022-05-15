@@ -14,7 +14,8 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
     val errorResult: MutableLiveData<String> = MutableLiveData()
 
     private val tempList: MutableLiveData<ArrayList<WordsModel>> = MutableLiveData()
-    val resultData: MutableLiveData<ArrayList<WordsModel>> =
+
+     val resultData: MutableLiveData<ArrayList<WordsModel>> =
         MutableLiveData<ArrayList<WordsModel>>().also {
             getWords()
         }
@@ -62,6 +63,7 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 
 
     fun sortDescending() {
+
         resultData.value?.let {
             if (it.size>0){
                 it.sortByDescending {
@@ -75,6 +77,7 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
     }
 
     fun sortAscending() {
+
         resultData.value?.let {
             if (it.size > 0) {
                 it.sortBy {
